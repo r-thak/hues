@@ -1,0 +1,42 @@
+{
+    "name": "hues",
+    "image": "mcr.microsoft.com/devcontainers/base:debian",
+    "workspaceFolder": "/workspaces/hues",
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {
+            "version": "latest",
+            "enableNonRootDocker": "true",
+            "moby": false
+        },
+        "ghcr.io/devcontainers/features/java:1": {
+            "version": "17",
+            "installMaven": "true",
+            "installGradle": "true"
+        },
+        "ghcr.io/devcontainers-extra/features/bun:1": {
+            "version": "latest"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "vscjava.vscode-java-pack",
+                "vmware.vscode-spring-boot",
+                "vscjava.vscode-spring-boot-dashboard",
+                "vscjava.vscode-spring-initializr",
+                "vscjava.vscode-maven",
+                "vscjava.vscode-gradle",
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "dsznajder.es7-react-js-snippets",
+                "oven.bun-vscode"
+            ]
+        }
+    },
+    "postCreateCommand": "cd /workspaces/hues",
+    "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+    "remoteUser": "vscode"
+}
