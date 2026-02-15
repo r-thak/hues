@@ -1,0 +1,11 @@
+{
+    "name": "@hues/shared",
+    "version": "1.0.0",
+    "type": "module",
+    "exports": {
+        "./board": "./src/board.js",
+        "./protocol": "./src/protocol.js",
+        "./scoring": "./src/scoring.js",
+        "./validation": "./src/validation.js"
+    }
+}
