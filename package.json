@@ -1,0 +1,18 @@
+{
+    "name": "hues-and-cues",
+    "private": true,
+    "type": "module",
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "dev:server": "node --watch packages/server/src/index.js",
+        "dev:client": "npm run dev --workspace=packages/client",
+        "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+        "build:client": "npm run build --workspace=packages/client",
+        "start": "node packages/server/src/index.js"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.0"
+    }
+}
