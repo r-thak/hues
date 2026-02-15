@@ -1,0 +1,10 @@
+{
+    "name": "@hues/server",
+    "version": "1.0.0",
+    "type": "module",
+    "dependencies": {
+        "@hues/shared": "*",
+        "ws": "^8.16.0",
+        "sirv": "^2.0.4"
+    }
+}
