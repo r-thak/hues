@@ -1,0 +1,8 @@
+services:
+  app:
+    build: .
+    ports:
+      - "54052:3000"
+    environment:
+      - PORT=3000
+    restart: always
