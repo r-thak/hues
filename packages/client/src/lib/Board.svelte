@@ -238,6 +238,7 @@
     on:pointermove={handlePointerMove}
     on:pointerup={handlePointerUp}
     on:pointercancel={handlePointerUp}
+    role="presentation"
   >
     <div
       class="grid w-full h-full"
@@ -310,7 +311,7 @@
     <!-- Scoring zone overlays during reveal -->
     {#if revealData && scoringRadii}
       {#each scoringRadii as { maxDist, points }}
-        {@const rect = getChebyshevRect(revealData.targetCell, maxDist)}
+        {@const rect = getScoringRect(revealData.targetCell, maxDist)}
         {@const cellW = gridWidth / visibleCols}
         {@const cellH = gridHeight / visibleRows}
         {@const offsetCol = zoomed ? zoomStartCol : 0}

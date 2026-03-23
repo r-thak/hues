@@ -9,7 +9,6 @@ const PORT = process.env.PORT || 3000;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const clientDistPath = path.resolve(__dirname, '../../client/dist');
-const clientBuilt = fs.existsSync(clientDistPath);
 
 const MIME_TYPES = {
     '.html': 'text/html',
@@ -26,6 +25,7 @@ const MIME_TYPES = {
 };
 
 function serveStatic(req, res) {
+    const clientBuilt = fs.existsSync(clientDistPath);
     if (!clientBuilt) {
         res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end('Hues and Cues server running. Client not built yet.');

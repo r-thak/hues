@@ -3,55 +3,69 @@
   export let cueGiverId = "";
   export let onClose = () => {};
 
-  $: sorted = [...players].sort((a, b) => b.score - a.score);
+  $: sorted = [...(players || [])].sort((a, b) => (b.score || 0) - (a.score || 0));
 </script>
 
 <div
-  class="fixed inset-0 z-50 flex justify-end"
+  class="fixed inset-0 z-[100] flex justify-end bg-slate-950/40 backdrop-blur-sm"
   on:click|self={onClose}
   role="presentation"
 >
   <div
-    class="w-80 max-w-full h-full bg-white shadow-2xl border-l border-gray-100 flex flex-col animate-slide-in"
+    class="w-80 max-w-full h-full bg-slate-900 shadow-2xl border-l border-white/5 flex flex-col animate-slide-in relative"
   >
-    <div class="flex items-center justify-between p-4 border-b border-gray-100">
-      <h2 class="text-lg font-bold text-gray-800">Scoreboard</h2>
+    <!-- Background Gradient Accent -->
+    <div class="absolute top-0 right-0 w-32 h-64 bg-indigo-500/10 blur-3xl pointer-events-none"></div>
+
+    <div class="flex items-center justify-between p-6 border-b border-white/5 relative z-10">
+      <h2 class="text-xl font-black text-white tracking-tight font-['Outfit'] italic">SCOREBOARD</h2>
       <button
         on:click={onClose}
-        class="text-gray-400 hover:text-gray-600 transition-colors text-xl"
+        class="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all active:scale-90"
+        aria-label="Close"
       >
-        ✕
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
       </button>
     </div>
-    <div class="flex-1 overflow-y-auto p-4">
-      <div class="space-y-2">
+
+    <div class="flex-1 overflow-y-auto p-6 relative z-10 custom-scrollbar">
+      <div class="space-y-3">
         {#each sorted as player, i (player.id)}
           <div
-            class="flex items-center gap-3 py-3 px-4 rounded-xl transition-opacity"
-            class:bg-amber-50={i === 0 && player.score > 0}
-            class:bg-gray-50={i !== 0 || player.score === 0}
-            class:opacity-50={!player.connected}
+            class="group flex items-center gap-4 py-4 px-5 rounded-2xl transition-all border {i === 0 && player.score > 0 ? 'bg-indigo-500/10 border-indigo-500/20' : 'bg-white/5 border-transparent hover:bg-white/10'}"
+            class:opacity-40={!player.connected}
           >
-            <span class="w-6 text-center font-bold text-gray-400 text-sm">
-              {#if i === 0 && player.score > 0}🥇{:else if i === 1 && player.score > 0}🥈{:else if i === 2 && player.score > 0}🥉{:else}{i +
-                  1}{/if}
-            </span>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2">
-                <span class="font-medium text-gray-800 truncate"
-                  >{player.name}</span
-                >
-                {#if player.id === cueGiverId}
-                  <span
-                    class="text-xs px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 font-medium"
-                    >Cue Giver</span
-                  >
-                {/if}
-              </div>
+            <div class="w-8 flex items-center justify-center">
+               {#if i === 0 && player.score > 0}
+                 <span class="text-2xl filter drop-shadow-md">🥇</span>
+               {:else if i === 1 && player.score > 0}
+                 <span class="text-xl filter drop-shadow-md">🥈</span>
+               {:else if i === 2 && player.score > 0}
+                 <span class="text-lg filter drop-shadow-md">🥉</span>
+               {:else}
+                 <span class="text-slate-500 font-black italic text-sm">{i + 1}</span>
+               {/if}
             </div>
-            <span class="font-bold text-gray-800 text-lg tabular-nums"
-              >{player.score}</span
-            >
+
+            <div class="flex-1 min-w-0">
+               <div class="flex flex-col">
+                 <div class="flex items-center gap-2">
+                   <span class="font-bold {i === 0 && player.score > 0 ? 'text-indigo-100' : 'text-slate-200'} truncate tracking-tight">{player.name}</span>
+                   {#if !player.connected}
+                     <span class="text-[8px] font-black text-slate-500 uppercase tracking-widest">OFFLINE</span>
+                   {/if}
+                 </div>
+                 {#if player.id === cueGiverId}
+                   <span class="text-[9px] font-black text-indigo-400 uppercase tracking-widest leading-none mt-0.5">CUE GIVER</span>
+                 {/if}
+               </div>
+            </div>
+
+            <span class="font-black {i === 0 && player.score > 0 ? 'text-indigo-300' : 'text-slate-400'} text-2xl tabular-nums font-['Outfit']">
+              {player.score}
+            </span>
           </div>
         {/each}
       </div>
@@ -61,14 +75,10 @@
 
 <style>
   @keyframes slideIn {
-    from {
-      transform: translateX(100%);
-    }
-    to {
-      transform: translateX(0);
-    }
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
   }
   .animate-slide-in {
-    animation: slideIn 200ms ease-out;
+    animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 </style>
