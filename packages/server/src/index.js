@@ -5,7 +5,7 @@ import path from 'path';
 import fs from 'fs';
 import { RoomManager } from './RoomManager.js';
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 54052;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const clientDistPath = path.resolve(__dirname, '../../client/dist');
