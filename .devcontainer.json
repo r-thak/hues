@@ -17,5 +17,6 @@
     },
     "postCreateCommand": "cd /workspaces/hues",
     "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
-    "remoteUser": "vscode"
+    "remoteUser": "vscode",
+    "forwardPorts": [3000, 5173]
 }
