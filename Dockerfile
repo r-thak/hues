@@ -11,6 +11,6 @@ RUN bun install --frozen-lockfile
 COPY . .
 RUN bun run build:client
 
-EXPOSE 3000
+EXPOSE 54052
 
 CMD ["bun", "run", "start"]
